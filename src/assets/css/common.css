@@ -125,3 +125,34 @@ input {
   background:#0069B7;
   color:#fff;
 }
+
+/* 新增上一页下一页 */
+.details-btn {
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+.details-btn div {
+  color: #999;
+  float: left;
+  width: 50%;
+  height: 24px;
+}
+.details-btn div:last-child {
+  text-align: right;
+}
+.details-btn div span {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.details-btn div:last-child span {
+  justify-content: flex-end;
+}
+.details-btn div span:hover {
+  color: blue;
+}
+.details-btn div img {
+  width: 20px;
+  margin: 0 5px;
+  display: inline-block;
+}

@@ -21,6 +21,20 @@
           <h6 class="f18 alignCenter">{{ info.updateAt | DateTime }}</h6>
           <div class="" v-html="info.content"></div>
         </div>
+        <div class="details-btn">
+          <div>
+            <span v-if="$route.query.index != 0" @click="pageClick(prevPage.id, --$route.query.index)">
+              <img src="../assets/img/left.png" alt="左箭头">
+              上一篇: {{prevPage.title}}
+            </span>
+          </div>
+          <div>
+            <span v-if="$route.query.index != (pageList.length - 1)" @click="pageClick(nextPage.id, ++$route.query.index)">
+              下一篇: {{nextPage.title}}
+              <img src="../assets/img/right.png" alt="右箭头">
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <FooterBottom></FooterBottom>
@@ -35,9 +49,14 @@ export default {
   data () {
     return {
       company: 5,
-      info: ''
+      info: '',
+      pageList: [],
+      prevPage: {},
+      nextPage: {},
+      index: 0
     }
   },
+  inject: ['reload'],
   methods: {
     init () {
       // 初始化新闻详情
@@ -48,10 +67,37 @@ export default {
           this.info = res.data
         }
       })
+    },
+    initList () {
+      let _this = this
+      // 初始化二级分类，主要获取上一篇，下一篇
+      _this.$dataPost('/api/cms/solution/list', {
+        'typeId': _this.$route.query.typeid,
+        'pageSize': '30',
+        'pageNumber': '1'
+      }, (res) => {
+        if (res.code === 0) {
+          let prev = parseInt(_this.$route.query.index) - 1
+          let next = parseInt(_this.$route.query.index) + 1
+          _this.pageList = res.data.list
+          if (prev >= 0) {
+            _this.$set(_this.prevPage, 'title', res.data.list[prev].title)
+            _this.$set(_this.prevPage, 'id', res.data.list[prev].id)
+          }
+          _this.$set(_this.nextPage, 'title', res.data.list[next].title)
+          _this.$set(_this.nextPage, 'id', res.data.list[next].id)
+        }
+      })
+    },
+    pageClick (id, index) {
+      // 跳转上一页,下一页
+      this.$router.replace({path: 'planDetail', query: {id: id, typeid: this.$route.query.typeid, index: this.$route.query.index}})
+      this.reload()
     }
   },
-  created () {
+  mounted () {
     this.init()
+    this.initList()
   },
   components: {
     HeaderTop,

@@ -21,8 +21,8 @@
             <span>{{ comTitle }}</span>
           </div>
           <ul class="pro-content">
-            <li v-for="item in newsList" :key="item.id">
-              <router-link :to="{ path: 'projectDetail', query: { id: item.id }}">
+            <li v-for="(item, index) in newsList" :key="item.id">
+              <router-link :to="{ path: 'projectDetail', query: {id: item.id, typeid: comId, index: index}}">
                 <div class="pic">
                   <img :src="item.icon" alt="产品图片">
                 </div>
