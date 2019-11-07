@@ -56,7 +56,7 @@ export default {
   name: 'ProductDetail',
   data () {
     return {
-      company: 3,
+      company: 4,
       info: '',
       current: 1, // 分页
       showItem: 5,

@@ -48,7 +48,7 @@ export default {
   name: 'Project',
   data () {
     return {
-      company: 5,
+      company: 4,
       info: '',
       pageList: [],
       prevPage: {},
